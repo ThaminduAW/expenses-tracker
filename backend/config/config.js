@@ -1,0 +1,1 @@
+// App-wide configuration variables (e.g., secret keys)

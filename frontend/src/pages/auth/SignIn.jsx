@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { login } from '../../services/authService';
 
 export default function SignIn() {
@@ -7,6 +8,7 @@ export default function SignIn() {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [token, setToken] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -15,7 +17,8 @@ export default function SignIn() {
         try {
             const data = await login(email, password);
             setToken(data.token);
-            // Store token in localStorage or context for real app
+            localStorage.setItem('token', data.token);
+            navigate('/'); // Redirect to dashboard
         } catch (err) {
             setError(err.response?.data?.message || 'Login failed');
         } finally {

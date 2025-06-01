@@ -5,7 +5,7 @@ const Subscription = require('../models/Subscription');
 // Get all subscriptions
 const getSubscriptions = async (req, res) => {
   try {
-    const subscriptions = await Subscription.find();
+    const subscriptions = await Subscription.find({ user: req.user._id });
     res.json(subscriptions);
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -20,7 +20,8 @@ const addSubscription = async (req, res) => {
     name,
     amount,
     frequency,
-    startDate
+    startDate,
+    user: req.user._id // Associate with user
   });
 
   try {
@@ -34,8 +35,9 @@ const addSubscription = async (req, res) => {
 // Update a subscription
 const updateSubscription = async (req, res) => {
   try {
-    const updated = await Subscription.findByIdAndUpdate(
-      req.params.id,
+    // Only allow update if owned by user
+    const updated = await Subscription.findOneAndUpdate(
+      { _id: req.params.id, user: req.user._id },
       req.body,
       { new: true }
     );
@@ -49,7 +51,8 @@ const updateSubscription = async (req, res) => {
 // Delete a subscription
 const deleteSubscription = async (req, res) => {
   try {
-    const deleted = await Subscription.findByIdAndDelete(req.params.id);
+    // Only allow delete if owned by user
+    const deleted = await Subscription.findOneAndDelete({ _id: req.params.id, user: req.user._id });
     if (!deleted) return res.status(404).json({ message: 'Subscription not found' });
     res.json({ message: 'Subscription deleted' });
   } catch (err) {
@@ -61,7 +64,7 @@ const deleteSubscription = async (req, res) => {
 const getBreakdown = async (req, res) => {
   const { year, month } = req.query;
   try {
-    let match = {};
+    let match = { user: req.user._id };
     if (year) {
       match.startDate = { $gte: new Date(`${year}-01-01`), $lte: new Date(`${year}-12-31`) };
     }
@@ -85,6 +88,7 @@ const getReminders = async (req, res) => {
     const soon = new Date();
     soon.setDate(now.getDate() + 30);
     const subs = await Subscription.find({
+      user: req.user._id,
       startDate: { $gte: now, $lte: soon }
     });
     res.json(subs);

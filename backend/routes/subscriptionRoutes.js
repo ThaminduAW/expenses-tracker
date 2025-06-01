@@ -7,24 +7,25 @@ const {
     getBreakdown,
     getReminders
 } = require('../controllers/subscriptionController');
+const { protect } = require('../middleware/authMiddleware');
 const router = express.Router();
 
 // Route to get all subscriptions
-router.get('/', getSubscriptions);
+router.get('/', protect, getSubscriptions);
 
 // Route to add a new subscription
-router.post('/', addSubscription);
+router.post('/', protect, addSubscription);
 
 // Update a subscription
-router.put('/:id', updateSubscription);
+router.put('/:id', protect, updateSubscription);
 
 // Delete a subscription
-router.delete('/:id', deleteSubscription);
+router.delete('/:id', protect, deleteSubscription);
 
 // Get breakdown
-router.get('/breakdown', getBreakdown);
+router.get('/breakdown', protect, getBreakdown);
 
 // Get reminders
-router.get('/reminders', getReminders);
+router.get('/reminders', protect, getReminders);
 
 module.exports = router;

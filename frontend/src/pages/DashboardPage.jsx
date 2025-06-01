@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   getSubscriptions,
   addSubscription,
@@ -9,6 +10,7 @@ import {
 } from '../services/subscriptionService';
 
 const DashboardPage = () => {
+  const navigate = useNavigate();
   const [subs, setSubs] = useState([]);
   const [form, setForm] = useState({ name: '', amount: '', frequency: 'Monthly', startDate: '' });
   const [editing, setEditing] = useState(null);
@@ -20,7 +22,15 @@ const DashboardPage = () => {
   const fetchSubs = async () => {
     setSubs(await getSubscriptions());
   };
-  useEffect(() => { fetchSubs(); }, []);
+  useEffect(() => {
+    // Check for token in localStorage
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/signin');
+      return;
+    }
+    fetchSubs();
+  }, []);
 
   const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
 

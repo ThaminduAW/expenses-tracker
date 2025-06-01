@@ -4,6 +4,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const subscriptionRoutes = require('./routes/subscriptionRoutes');
 const authRoutes = require('./routes/authRoutes'); // Import authRoutes
+const paymentRoutes = require('./routes/paymentRoutes'); // Import paymentRoutes
 
 // Load environment variables
 dotenv.config();
@@ -18,6 +19,7 @@ app.use(cors()); // To handle CORS issues between frontend and backend
 // Routes
 app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api/auth', authRoutes); // Register auth routes
+app.use('/api/payments', paymentRoutes); // Register payment routes
 
 // MongoDB connection
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })

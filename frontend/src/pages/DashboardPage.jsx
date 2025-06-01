@@ -8,6 +8,7 @@ import {
   getBreakdown,
   getReminders
 } from '../services/subscriptionService';
+import RecurringPayments from '../components/Dashboard/RecurringPayments';
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -120,6 +121,7 @@ const DashboardPage = () => {
           <li key={sub._id}>{sub.name} renews on {sub.startDate.slice(0, 10)}</li>
         ))}
       </ul>
+      <RecurringPayments />
     </div>
   );
 };

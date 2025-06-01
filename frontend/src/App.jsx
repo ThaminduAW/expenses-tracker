@@ -1,13 +1,17 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+import './App.css';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import SignIn from './pages/auth/SignIn';
+import SignUp from './pages/auth/SignUp';
+import DashboardPage from './pages/DashboardPage';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
 
   return (
-    <>
+    <Router>
       <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
@@ -17,6 +21,11 @@ function App() {
         </a>
       </div>
       <h1>Vite + React</h1>
+      <nav style={{ display: 'flex', gap: 16, padding: 16 }}>
+        <Link to="/signin">Sign In</Link>
+        <Link to="/signup">Sign Up</Link>
+        <Link to="/">Dashboard</Link>
+      </nav>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
@@ -28,8 +37,13 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
-    </>
-  )
+      <Routes>
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/" element={<DashboardPage />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;

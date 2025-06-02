@@ -15,6 +15,7 @@ export default function NavBar() {
             {!isLoggedIn && <Link to="/signup">Sign Up</Link>}
             {isLoggedIn && <button onClick={handleLogout}>Logout</button>}
             <Link to="/">Dashboard</Link>
+            {isLoggedIn && <Link to="/analytics">Analytics</Link>}
         </nav>
     );
 }

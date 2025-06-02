@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import { Line, Bar } from 'react-chartjs-2';
 import { analyticsService } from '../../services/analyticsService';
+import { format } from 'date-fns';
+import Button from '../Button';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend);
 
@@ -31,12 +33,12 @@ const YearlyReport = ({ selectedYear, setIsLoading }) => {
     return (
       <div className="text-center py-8">
         <div className="text-red-600 mb-4">⚠️ {error}</div>
-        <button 
+        <Button 
           onClick={fetchYearlyReport}
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+          variant="primary"
         >
           Try Again
-        </button>
+        </Button>
       </div>
     );
   }

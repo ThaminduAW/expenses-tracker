@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { register } from '../../services/authService';
+import Button from '../../components/Button';
 
 export default function SignUp() {
     const [email, setEmail] = useState('');
@@ -88,9 +89,9 @@ export default function SignUp() {
                         required
                     />
                 </div>
-                <button type="submit" className="button-submit" disabled={loading}>
+                <Button type="submit" variant="primary" size="full" disabled={loading}>
                     {loading ? 'Signing up...' : 'Sign Up'}
-                </button>
+                </Button>
                 {error && <div className="error-message">{error}</div>}
                 {success && <div className="success-message">{success}</div>}
                 <p className="p">
@@ -98,7 +99,7 @@ export default function SignUp() {
                     <span className="span" onClick={handleSignInClick}>Sign In</span>
                 </p>
                 <div className="flex-row">
-                    <button type="button" className="btn google">
+                    <Button type="button" variant="google" size="full">
                         <svg version="1.1" width={20} id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style={{enableBackground: 'new 0 0 512 512'}} xmlSpace="preserve">
                             <path style={{fill: '#FBBB00'}} d="M113.47,309.408L95.648,375.94l-65.139,1.378C11.042,341.211,0,299.9,0,256
                             c0-42.451,10.324-82.483,28.624-117.732h0.014l57.992,10.632l25.404,57.644c-5.317,15.501-8.215,32.141-8.215,49.456
@@ -114,7 +115,7 @@ export default function SignUp() {
                             C318.115,0,375.068,22.126,419.404,58.936z" />
                         </svg>
                         Google
-                    </button>
+                    </Button>
                 </div>
             </form>
         </StyledWrapper>
@@ -204,54 +205,11 @@ const StyledWrapper = styled.div`
         cursor: pointer;
     }
 
-    .button-submit {
-        margin: 20px 0 10px 0;
-        background-color: #151717;
-        border: none;
-        color: white;
-        font-size: 15px;
-        font-weight: 500;
-        border-radius: 10px;
-        height: 50px;
-        width: 100%;
-        cursor: pointer;
-        transition: background-color 0.2s ease-in-out;
-    }
-
-    .button-submit:hover:not(:disabled) {
-        background-color: #252727;
-    }
-
-    .button-submit:disabled {
-        opacity: 0.7;
-        cursor: not-allowed;
-    }
-
     .p {
         text-align: center;
         color: black;
         font-size: 14px;
         margin: 5px 0;
-    }
-
-    .btn {
-        margin-top: 10px;
-        width: 100%;
-        height: 50px;
-        border-radius: 10px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: 500;
-        gap: 10px;
-        border: 1px solid #ededef;
-        background-color: white;
-        cursor: pointer;
-        transition: 0.2s ease-in-out;
-    }
-
-    .btn:hover {
-        border: 1px solid #2d79f3;
     }
 
     .error-message {

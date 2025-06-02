@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie, Doughnut } from 'react-chartjs-2';
 import { analyticsService } from '../../services/analyticsService';
+import Button from '../Button';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -31,12 +32,12 @@ const CategoryBreakdown = ({ selectedMonth, selectedYear, setIsLoading }) => {
     return (
       <div className="text-center py-8">
         <div className="text-red-600 mb-4">⚠️ {error}</div>
-        <button 
+        <Button 
           onClick={fetchCategoryBreakdown}
-          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+          variant="primary"
         >
           Try Again
-        </button>
+        </Button>
       </div>
     );
   }

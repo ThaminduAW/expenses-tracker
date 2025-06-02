@@ -10,6 +10,8 @@ import {
   getReminders
 } from '../services/subscriptionService';
 import RecurringPayments from '../components/Dashboard/RecurringPayments';
+import { FiLogOut, FiPlus, FiEdit, FiTrash2, FiBarChart } from 'react-icons/fi';
+import Button from '../components/Button';
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -86,12 +88,10 @@ const DashboardPage = () => {
       <div className="dashboard-container">
         <Header>
           <h1>Expense Tracker Dashboard</h1>
-          <button className="logout-btn" onClick={handleLogout}>
-            <svg width={16} height={16} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+          <Button variant="danger" onClick={handleLogout}>
+            <FiLogOut />
             Logout
-          </button>
+          </Button>
         </Header>
 
         <Card>
@@ -146,21 +146,20 @@ const DashboardPage = () => {
               </div>
             </div>
             <div className="form-actions">
-              <button type="submit" className="btn-primary">
-                {editing ? 'Update Subscription' : 'Add Subscription'}
-              </button>
-              {editing && (
-                <button 
-                  type="button" 
-                  className="btn-secondary"
-                  onClick={() => { 
-                    setEditing(null); 
-                    setForm({ name: '', amount: '', frequency: 'Monthly', startDate: '' }); 
-                  }}
-                >
-                  Cancel
-                </button>
-              )}
+              <Button type="submit" variant="primary">
+                <FiPlus />
+                Add Subscription
+              </Button>
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={() => {
+                  setEditing(null);
+                  setForm({ name: '', amount: '', frequency: 'Monthly', startDate: '' });
+                }}
+              >
+                Cancel
+              </Button>
             </div>
           </form>
         </Card>
@@ -192,20 +191,14 @@ const DashboardPage = () => {
                     <div className="start-date">Started: {sub.startDate.slice(0, 10)}</div>
                   </div>
                   <div className="subscription-actions">
-                    <button className="btn-edit" onClick={() => handleEdit(sub)}>
-                      <svg width={16} height={16} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                      Edit
-                    </button>
-                    <button className="btn-delete" onClick={() => handleDelete(sub._id)}>
-                      <svg width={16} height={16} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <polyline points="3,6 5,6 21,6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
-                      Delete
-                    </button>
+                    <Button variant="edit" size="small" onClick={() => handleEdit(sub)}>
+                      <FiEdit />
+                      <span>Edit</span>
+                    </Button>
+                    <Button variant="danger" size="small" onClick={() => handleDelete(sub._id)}>
+                      <FiTrash2 />
+                      <span>Delete</span>
+                    </Button>
                   </div>
                 </SubscriptionCard>
               ))}
@@ -239,9 +232,10 @@ const DashboardPage = () => {
                   onChange={e => setMonth(e.target.value)} 
                 />
               </div>
-              <button className="btn-primary" onClick={handleBreakdown}>
-                Get Breakdown
-              </button>
+              <Button variant="primary" onClick={handleBreakdown}>
+                <FiBarChart />
+                View Analytics
+              </Button>
             </div>
             {breakdown.length > 0 && (
               <BreakdownList>
@@ -324,93 +318,6 @@ const StyledWrapper = styled.div`
       grid-template-columns: 1fr;
     }
   }
-
-  /* Button Styles */
-  .btn-primary {
-    padding: 0.75rem 1.5rem;
-    background-color: #151717;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-
-    &:hover:not(:disabled) {
-      background-color: #252727;
-    }
-
-    &:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
-  }
-
-  .btn-secondary {
-    padding: 0.75rem 1.5rem;
-    background-color: #6c757d;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-
-    &:hover:not(:disabled) {
-      background-color: #5a6268;
-    }
-
-    &:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-    }
-  }
-
-  .btn-edit {
-    padding: 0.5rem 1rem;
-    background-color: #2d79f3;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.8rem;
-
-    &:hover {
-      background-color: #1e5bb8;
-    }
-  }
-
-  .btn-delete {
-    padding: 0.5rem 1rem;
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.8rem;
-
-    &:hover {
-      background-color: #c82333;
-    }
-  }
 `;
 
 const Header = styled.div`
@@ -427,24 +334,6 @@ const Header = styled.div`
     color: #151717;
     font-size: 1.8rem;
     font-weight: 600;
-  }
-
-  .logout-btn {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: 500;
-    transition: background-color 0.2s ease-in-out;
-
-    &:hover {
-      background-color: #c82333;
-    }
   }
 `;
 

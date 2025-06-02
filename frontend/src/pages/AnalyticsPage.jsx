@@ -6,6 +6,8 @@ import MonthlyReport from '../components/Analytics/MonthlyReport';
 import YearlyReport from '../components/Analytics/YearlyReport';
 import SpendingTrends from '../components/Analytics/SpendingTrends';
 import CategoryBreakdown from '../components/Analytics/CategoryBreakdown';
+import Button from '../components/Button';
+import { FiArrowLeft, FiBarChart, FiTrendingUp, FiPieChart, FiCalendar } from 'react-icons/fi';
 
 const AnalyticsPage = () => {
   const navigate = useNavigate();
@@ -109,24 +111,14 @@ const AnalyticsPage = () => {
     <StyledWrapper>
       <div className="analytics-container">
         <Header>
-          <div className="header-left">
-            <button className="back-btn" onClick={handleGoBack}>
-              <svg width={16} height={16} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-              Back to Dashboard
-            </button>
-            <div className="header-text">
-              <h1>Analytics & Reports</h1>
-              <p>Analyze your spending patterns and track your financial habits</p>
-            </div>
-          </div>
-          {isLoading && (
-            <LoadingIndicator>
-              <div className="spinner"></div>
-              <span>Loading...</span>
-            </LoadingIndicator>
-          )}
+          <Button variant="secondary" onClick={handleGoBack}>
+            <FiArrowLeft />
+            <span>Back to Dashboard</span>
+          </Button>
+          <LoadingIndicator style={{ visibility: isLoading ? 'visible' : 'hidden' }}>
+            <div className="spinner"></div>
+            Loading analytics...
+          </LoadingIndicator>
         </Header>
 
         <Card>
@@ -170,14 +162,15 @@ const AnalyticsPage = () => {
         <TabsCard>
           <TabNavigation>
             {tabs.map((tab) => (
-              <TabButton
+              <Button
                 key={tab.id}
+                variant="tab"
                 onClick={() => setActiveTab(tab.id)}
                 className={activeTab === tab.id ? 'active' : ''}
               >
                 {tab.icon}
-                {tab.label}
-              </TabButton>
+                <span>{tab.label}</span>
+              </Button>
             ))}
           </TabNavigation>
           
@@ -375,47 +368,6 @@ const TabNavigation = styled.div`
   }
 `;
 
-const TabButton = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1.25rem 2rem;
-  border: none;
-  background: none;
-  color: #6c757d;
-  font-weight: 500;
-  cursor: pointer;
-  border-bottom: 3px solid transparent;
-  transition: all 0.2s ease-in-out;
-  white-space: nowrap;
-  font-size: 0.95rem;
-
-  &:hover {
-    color: #151717;
-    background-color: #f8f9fa;
-  }
-
-  &.active {
-    color: #2d79f3;
-    border-bottom-color: #2d79f3;
-    background-color: #f8f9fa;
-  }
-
-  svg {
-    flex-shrink: 0;
-  }
-
-  @media (max-width: 768px) {
-    flex: 1;
-    min-width: 0;
-    padding: 1rem;
-    
-    span {
-      display: none;
-    }
-  }
-`;
-
 const TabContent = styled.div`
   padding: 2rem;
   min-height: 400px;
@@ -464,4 +416,4 @@ const TabContent = styled.div`
   }
 `;
 
-export default AnalyticsPage; 
+export default AnalyticsPage;

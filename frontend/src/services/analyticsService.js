@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://expenses-tracker-server-f9n8.onrender.com/api';
 
 // Create axios instance with base configuration
 const analyticsAPI = axios.create({
@@ -15,6 +15,18 @@ analyticsAPI.interceptors.request.use((config) => {
   }
   return config;
 });
+
+// Add response interceptor to handle auth errors
+analyticsAPI.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      window.location.href = '/signin';
+    }
+    return Promise.reject(error);
+  }
+);
 
 export const analyticsService = {
   // Get monthly expense summary

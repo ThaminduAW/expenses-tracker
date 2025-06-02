@@ -12,6 +12,7 @@ import {
 import RecurringPayments from '../components/Dashboard/RecurringPayments';
 import { FiLogOut, FiPlus, FiEdit, FiTrash2, FiBarChart } from 'react-icons/fi';
 import Button from '../components/Button';
+import { logAuthStatus } from '../utils/authUtils';
 
 const DashboardPage = () => {
   const navigate = useNavigate();
@@ -24,13 +25,17 @@ const DashboardPage = () => {
   const [month, setMonth] = useState('');
 
   const fetchSubs = async () => {
-    setSubs(await getSubscriptions());
+    try {
+      setSubs(await getSubscriptions());
+    } catch (error) {
+      console.error('Error fetching subscriptions:', error);
+    }
   };
 
   useEffect(() => {
-    // Check for token in localStorage
-    const token = localStorage.getItem('token');
-    if (!token) {
+    // Check for token in localStorage and log auth status
+    const authStatus = logAuthStatus();
+    if (!authStatus.hasToken || authStatus.isExpired) {
       navigate('/signin');
       return;
     }
@@ -71,7 +76,11 @@ const DashboardPage = () => {
   };
 
   const fetchReminders = async () => {
-    setReminders(await getReminders());
+    try {
+      setReminders(await getReminders());
+    } catch (error) {
+      console.error('Error fetching reminders:', error);
+    }
   };
 
   useEffect(() => { 

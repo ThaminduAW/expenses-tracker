@@ -14,6 +14,7 @@ const RecurringPayments = () => {
     const [form, setForm] = useState({ name: '', provider: '', totalAmount: '', installments: [] });
     const [editing, setEditing] = useState(null);
     const [schedule, setSchedule] = useState(null);
+    const [currentPaymentId, setCurrentPaymentId] = useState(null);
     const [reminders, setReminders] = useState([]);
     const [installmentsInput, setInstallmentsInput] = useState([{ dueDate: '', amount: '' }]);
 
@@ -66,7 +67,10 @@ const RecurringPayments = () => {
         fetchPayments();
     };
 
-    const handleSchedule = async id => setSchedule(await getPaymentSchedule(id));
+    const handleSchedule = async id => {
+        setCurrentPaymentId(id);
+        setSchedule(await getPaymentSchedule(id));
+    };
 
     const handleMarkPaid = async (paymentId, installmentId) => {
         await markInstallmentPaid(paymentId, installmentId);
@@ -124,7 +128,7 @@ const RecurringPayments = () => {
                         {schedule.paymentHistory.map(inst => (
                             <li key={inst._id}>
                                 {inst.dueDate.slice(0, 10)} - {inst.amount} - {inst.status}
-                                {inst.status === 'pending' && <button onClick={() => handleMarkPaid(schedule.paymentHistory[0].payment, inst._id)}>Mark Paid</button>}
+                                {inst.status === 'pending' && <button onClick={() => handleMarkPaid(currentPaymentId, inst._id)}>Mark Paid</button>}
                                 {inst.status === 'paid' && inst.paidAt && ` (Paid at ${new Date(inst.paidAt).toLocaleDateString()})`}
                             </li>
                         ))}

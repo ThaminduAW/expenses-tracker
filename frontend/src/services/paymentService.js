@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // API calls for recurring payments
-const API = `${import.meta.env.VITE_API_BASE_URL}/api/payments`;
+const API = `${import.meta.env.VITE_API_URL}/payments`;
 
 export const getRecurringPayments = async () => {
     const res = await axios.get(API, { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } });
